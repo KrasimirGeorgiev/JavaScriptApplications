@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>window.onload</title>
+    <script src="file1.js"></script>
+</head>
+<body>
+    <script>
+        var oldWindowOnLoadIndex = window.onload;
+        window.onload = function () {
+            if (oldWindowOnLoadIndex) {
+                oldWindowOnLoadIndex();
+            }
+
+            console.log('index');
+        }
+    </script>
+    <script src="file2.js"></script>
+</body>
+</html>

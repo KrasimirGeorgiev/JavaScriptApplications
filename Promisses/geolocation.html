@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+        div, img {
+            display: inline-block;
+        }
+
+        #map {
+            width: 500px;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="location-element"></div>
+        <img id="location" src="http://maps.googleapis.com/maps/api/staticmap?center=42.0945000,25.2240099&zoom=14&size=400x400&key=AIzaSyC3DOVUE3Cop9-Ja7JAqjcgeUuEcb91raM" alt="geoposition" alt="geoposition" />
+    </div>
+
+    <div>
+        <button id="upButton">UP</button>
+        <button id="downButton">DOWN</button>
+        <button id="leftButton">LEFT</button>
+        <button id="rightButton">RIGHT</button>
+        <hr />
+        <button id="zoomInButton">ZOOM <strong>+</strong></button>
+        <button id="zoomOutButton">ZOOM <strong>-</strong></button>
+    </div>
+    <div id="map"></div>
+    <script src="https://maps.googleapis.com/maps/api/js?callback=initMap"
+            async defer></script>
+    <script>
+        function initMap() {
+            var mapDiv = document.getElementById('map'),
+                latitude = 42.0981838,
+                longitude = 25.2240099;
+            var map = new google.maps.Map(mapDiv, {
+                center: { lat: latitude, lng: longitude },
+                zoom: 14
+            });
+
+            var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';            
+            var marker = new google.maps.Marker({
+                position: { lat: latitude, lng: longitude },
+                map: map,
+                icon: iconBase + 'factory.png'
+            });
+        }
+    </script>
+    <script src="geolocation-heavy-callbacks.js"></script>
+    <script>
+        (function () {
+            var key = 'AIzaSyC3DOVUE3Cop9-Ja7JAqjcgeUuEcb91raM',
+                latitude = 42.0945000,
+                longitude = 25.2240099,
+                zoom = 14,
+                locationChangeValues = [0, 32, 26, 20, 12, 8, 4, 1.5, 0.5, 0.3, 0.2, 0.1, 0.05, 0.03, 0.02, 0.01, 0.005, 0.003, 0.001, 0.0005],
+                img = document.getElementById('location'),
+                wrapper = document.getElementById('wrapper');
+
+            navigator.geolocation
+                .getCurrentPosition(function (position) {
+                    latitude = position.coords.latitude;
+                    longitude = position.coords.longitude;
+                }
+                , function (error) {
+                    console.log(error);
+                });
+
+            document.getElementById('upButton').addEventListener('click', encreaseLatitude);
+            document.getElementById('downButton').addEventListener('click', decreaseLatitude);
+            document.getElementById('leftButton').addEventListener('click', decreaseLongitude);
+            document.getElementById('rightButton').addEventListener('click', encreaseLongitude);
+
+            document.getElementById('zoomInButton').addEventListener('click', zoomIn);
+            document.getElementById('zoomOutButton').addEventListener('click', zoomOut);
+
+            function encreaseLatitude() {
+                latitude += locationChangeValues[zoom];
+                changeGeolocationSrc();
+            }
+
+            function decreaseLatitude() {
+                latitude -= locationChangeValues[zoom];
+                changeGeolocationSrc();
+            }
+
+            function encreaseLongitude() {
+                longitude += locationChangeValues[zoom];
+                changeGeolocationSrc();
+            }
+
+            function decreaseLongitude() {
+                longitude -= locationChangeValues[zoom];
+                changeGeolocationSrc();
+            }
+
+            function zoomIn() {
+                if (zoom < 19) {
+                    zoom += 1;
+                    changeGeolocationSrc();
+                }
+            }
+
+            function zoomOut() {
+                if (zoom > 1) {
+                    zoom -= 1;
+                    changeGeolocationSrc();
+                }
+            }
+
+            function changeGeolocationSrc() {
+                var imgSrc = 'http://maps.googleapis.com/maps/api/staticmap?center=' + latitude + ',' + longitude + '&zoom=' + zoom + '&size=400x400&key=' + key;
+                img.setAttribute("src", imgSrc);
+                wrapper.appendChild(img);
+            }
+        }());
+
+    </script>
+</body>
+</html>

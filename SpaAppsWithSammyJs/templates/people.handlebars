@@ -1,0 +1,16 @@
+﻿{{#if result}}
+<table>
+    <tr>
+        <th>Name</th>
+    </tr>
+    {{#each result}}
+    <tr id="row{{id}}">
+        <td>
+            {{#link id name}}
+            {{/link}}
+            <a class="btn btn-danger btn-sm" href="#/remove/{{id}}">Delete Me</a>
+        </td>
+    </tr>
+    {{/each}}
+</table>
+{{/if}}

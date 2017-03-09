@@ -1,0 +1,8 @@
+﻿{
+    "people": [
+        { "name": "John1" },
+        { "name": "John2" },
+        { "name": "John3" },
+        { "name": "John4" }, 
+        { "name": "John5" } ]
+}

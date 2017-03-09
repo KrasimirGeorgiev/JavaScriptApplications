@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Database Tests</title>
+    <link href="node_modules/mocha/mocha.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="mocha"></div>
+    <!-- include mocha and chai -->
+    <script src="node_modules/mocha/mocha.js"></script>
+    <script src="node_modules/chai/chai.js"></script>
+    <script>
+    mocha.setup({
+        ui: 'bdd',
+    });
+    var expect = chai.expect;
+    </script>
+    <script src="node_modules/q/q.js"></script>
+    <script src="person.js"></script>
+    <script src="database.js"></script>
+    <script src="libs/polifils.js"></script>
+    <script src="tests.js"></script>
+    <script>
+    var windowOnLoadRun = window.onload;
+    window.onload = function () {
+        if (windowOnLoadRun) {
+            windowOnLoadRun();
+        }
+
+        mocha.run();
+    };
+    </script>
+
+</body>
+</html>

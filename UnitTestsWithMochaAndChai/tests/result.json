@@ -1,0 +1,73 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 4,
+    "passes": 3,
+    "pending": 1,
+    "failures": 0,
+    "start": "2016-02-11T13:15:26.412Z",
+    "end": "2016-02-11T13:15:26.428Z",
+    "duration": 16
+  },
+  "tests": [
+    {
+      "title": "expects sum([]) to return 0",
+      "fullTitle": "#sum expects sum([]) to return 0",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "expects sum() to return 0",
+      "fullTitle": "#sum expects sum() to return 0",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "expects sum(1, 2, 3) to return 6",
+      "fullTitle": "#sum expects sum(1, 2, 3) to return 6",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "expects sum(1, 2, 3) to return 6",
+      "fullTitle": "#sum expects sum(1, 2, 3) to return 6",
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [
+    {
+      "title": "expects sum(1, 2, 3) to return 6",
+      "fullTitle": "#sum expects sum(1, 2, 3) to return 6",
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "failures": [],
+  "passes": [
+    {
+      "title": "expects sum([]) to return 0",
+      "fullTitle": "#sum expects sum([]) to return 0",
+      "duration": 4,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "expects sum() to return 0",
+      "fullTitle": "#sum expects sum() to return 0",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "expects sum(1, 2, 3) to return 6",
+      "fullTitle": "#sum expects sum(1, 2, 3) to return 6",
+      "duration": 1,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Unit Tests</title>
+    <link href="node_modules/mocha/mocha.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="mocha"></div>
+    <!-- include mocha and chai -->
+    <script src="node_modules/mocha/mocha.js"></script>
+    <script src="node_modules/chai/chai.js"></script>
+    <!-- sinon, sinon-chai -->
+    <script src="node_modules/sinon/pkg/sinon.js"></script>
+    <script src="node_modules/sinon-chai/lib/sinon-chai.js"></script>
+    <script>
+        mocha.setup({
+            ui: 'bdd',
+        });
+        var expect = chai.expect;
+    </script>
+    <!-- include javascript files and test files -->
+    <script>
+        Storage.prototype.setObject = function (key, obj) {
+            this.setItem(key, JSON.stringify(obj));
+        }
+
+        Storage.prototype.getObject = function (key) {
+            return JSON.parse(this.getItem(key));
+        }
+    </script>
+    <script>
+        function sum(numbers) {
+            if (!(Array.isArray(numbers))) {
+                numbers = [].slice.call(arguments, 0);
+            }
+
+            var result = numbers.reduce(function (sum, number) {
+                return sum + number;
+            }, 0);
+
+            return result;
+        }
+    </script>
+    <script src="shipGame.js"></script>
+    <script>
+        describe('#sum', function () {
+            it('expects console.log(key, value)', function () {
+                var ranking = {},
+                    key = 1,
+                    value = 2;
+
+                sinon.stub(console, 'log', function (key, value) {
+                    ranking[key] = value;
+                });
+
+                console.log(key, value);
+                expect(ranking[key]).to.equal(value);
+                console.log.restore();
+            });
+
+            it('expects sum([]) to return 0', function () {
+                var actual = sum([]);
+                expect(actual).to.equal(0);
+            });
+
+            it('expects sum() to return 0', function () {
+                var actual = sum();
+                expect(actual).to.equal(0);
+            });
+
+            it('expects sum(1, 2, 3) to return 6', function () {
+                var actual = sum(1, 2, 3);
+                expect(actual).to.equal(6);
+            });
+
+            it('expects ASYNC TEST to.fail.or.not ', function (done) {
+                this.timeout(1010);
+                setTimeout(function () {
+                    expect(true).to.be.ok;
+                    expect(true).to.be.true;
+                    expect({}).to.be.an('object');
+                    expect(5).to.be.an('number');
+                    expect('mocha chai coffe').to.be.an('string');
+                    expect('').to.be.empty;
+                    expect(true).to.be.an('boolean');
+                    expect(null).to.be.an('null');
+                    expect(function () { }).to.be.an('function');
+                    expect(function () { }).to.be.instanceof(Function);
+                    expect(undefined).to.be.an('undefined');
+
+                    done();
+                }, 1000);
+            });
+
+            it.skip('expects sum(1, 2, 3) to return 6', function () {
+                var actual = sum(1, 2, 3);
+                expect(actual).to.equal(5);
+            });
+        });
+    </script>
+    <script src="tests.js"></script>
+    <script>
+        var windowOnLoadRun = window.onload;
+        window.onload = function () {
+            if (windowOnLoadRun) {
+                windowOnLoadRun();
+            }
+
+            mocha.run();
+        };
+    </script>
+</body>
+</html>

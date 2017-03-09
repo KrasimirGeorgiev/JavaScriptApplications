@@ -1,0 +1,3 @@
+﻿var add = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  return "﻿<div class=\"input-group\">\r\n    <span class=\"input-group-addon\" id=\"basic-addon1\">Name</span>\r\n    <input id=\"nameInput\" type=\"text\" class=\"form-control\" name=\"name\" value=\"Ivan\" placeholder=\"...\" aria-describedby=\"basic-addon1\" />\r\n</div>\r\n<br />\r\n<div class=\"input-group\">\r\n    <span class=\"input-group-addon\" id=\"basic-addon1\">Age</span>\r\n    <input id=\"ageInput\" type=\"number\" class=\"form-control\" value=\"18\" min=\"18\" max=\"65\" aria-describedby=\"basic-addon1\" />\r\n</div>\r\n<br />\r\n<input id=\"addBtn\" type=\"submit\" value=\"Add this person\" />";
+  },"useData":true});

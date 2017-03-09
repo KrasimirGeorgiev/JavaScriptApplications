@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+        button:hover {
+            cursor: pointer;
+        }
+
+        #load {
+            display: none;
+        }
+
+        .spinner {
+            position: absolute;
+            left: 50%;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        /* The modal's background */
+        .modal {
+            display: table;
+            position: fixed;
+            left: 0;
+            top: 0;
+            opacity: 0.3;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(51, 51, 51);
+        }
+
+        /* The modal box */
+        .modal-dialog {
+            display: table-cell;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <button id="loadBtn">Load</button>
+    <div id="load">
+        Loading...
+    </div>
+    <div id="container"></div>
+
+    <div id="modal" class="modal">
+        <div class="modal-dialog">
+            <img class="spinner" src="images/spiffygif333color.gif" alt="spinner" id="spinner" />
+        </div>
+    </div>
+    <script>
+        var url = 'partials/data.json',
+            // url = 'partials/time.html',
+            loadBtn = document.getElementById('loadBtn'),
+            container = document.getElementById('container');
+
+        loadBtn.addEventListener('click', function () {
+            console.log('send');
+            request.getJSON({
+                method: 'GET',
+                url: url,
+                headers: {},
+                success: getPeopleSuccessCallback,
+                // success: getTimeSuccessCallback,
+                error: errorCallback,
+            });
+        });
+
+        function getPeopleSuccessCallback(data) {
+            data = JSON.parse(data);
+            var i,
+                length,
+                divContainer = document.createElement('div'),
+                docFragment = document.createDocumentFragment(),
+                div = document.createElement('div');
+
+            for (i = 0, length = data.people.length; i < length; i += 1) {
+                div.innerHTML = data.people[i].name;
+                docFragment.appendChild(div.cloneNode(true));
+            }
+
+            divContainer.appendChild(docFragment);
+            container.innerHTML = divContainer.innerHTML;
+        }
+
+        function getTimeSuccessCallback(responseText) {
+            var script;
+            container.innerHTML = responseText;
+            script = container.getElementsByTagName('script')[0];
+            if (script) {
+                eval(script.innerHTML);
+            }
+        }
+
+        function errorCallback(error) {
+            console.log(error);
+            container.innerHTML = error;
+        }
+
+        var request = (function () {
+            var modalLoad = document.getElementById('modal');
+
+            function send(options) {
+                options = options || {};
+                options.method = options.method || 'GET';
+                options.url = options.url || '';
+                options.success = options.success || function success() { };
+                options.error = options.error || function error() { };
+
+                var xhr = new XMLHttpRequest();
+                xhr.open(options.method, options.url, true);
+
+                options.headers = options.headers || {};
+                for (var header in options.headers) {
+                    if (options.headers.hasOwnProperty(header)) {
+                        xhr.setRequestHeader(header, options.headers[header]);
+                    }
+                }
+
+                var promise = new Promise(function (resolve, reject) {
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === XMLHttpRequest.LOADING) {
+                            modalLoad.style.display = 'table';
+                        }
+                        else if (xhr.readyState === XMLHttpRequest.DONE) {
+                            var statusType = (xhr.status / 100) | 0;
+                            switch (statusType) {
+                                case 2:
+                                    if (options.success) {
+                                        options.success(xhr.responseText);
+                                    } else {
+                                        resolve(xhr.responseText);
+                                    }
+
+                                    break;
+                                case 4:
+                                case 5:
+                                    reject(xhr.statusText);
+
+                                    break;
+                            }
+
+                            setTimeout(function () {
+                                modalLoad.style.display = 'none';
+                            }, 500);
+                        }
+                    }
+                });
+
+                options.data = options.data || null;
+                xhr.send(options.data);
+
+                return promise;
+            }
+
+            function post(options) {
+                options = Object.create(options);
+                options.method = 'POST';
+                return send(options);
+            }
+
+            function get(options) {
+                options = Object.create(options);
+                options.method = 'GET';
+                return send(options);
+            }
+
+            function getJSON(options) {
+                options = Object.create(options);
+                options.method = 'GET';
+                options.headers = options.headers || {};
+                options.headers['Content-Type'] = 'application/json';
+                options.headers['accepts'] = 'application/json';
+                return send(options)
+                    .then(function (text) {
+                        // this will not execute if options.success callback exists
+                        return JSON.parse(text);
+                    });
+            }
+
+            return {
+                send: send,
+                post: post,
+                get: get,
+                getJSON: getJSON,
+            };
+        }());
+
+        var modalLoad = document.getElementById('modal');
+        //document.onreadystatechange = function () {
+        //    console.log(document.readyState);
+        //    if (document.readyState === 'interactive') {
+        //        modalLoad.style.display = 'table';
+        //    } else if (document.readyState === 'complete') {
+        //        setTimeout(function () {
+        //            modalLoad.style.display = 'none';
+        //        }, 1000);
+        //    }
+        //};
+
+        var windowOnloadIndex = window.onload;
+        window.onload = function () {
+            if (windowOnloadIndex) {
+                windowOnloadIndex();
+            }
+
+            setTimeout(function () {
+                modalLoad.style.display = 'none';
+            }, 1000);
+        };
+    </script>
+</body>
+</html>

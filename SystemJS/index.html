@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <script src="bower_components/system.js/dist/system.js"></script>
+    <script>
+        // bower install system.js
+        // bower install jquery
+        // npm install babel-core@5.8.22
+        System.config({
+            transpiler: 'babel',
+            'babelOptions': {
+                'optional': [
+                    'runtime'
+                ],
+                
+            },
+            map: {
+                'babel': 'node_modules/babel-core/browser.js',
+                'jquery': 'bower_components/jquery/dist/jquery.js',
+            }
+        });
+        System.import('app/app.js')
+            .then(function (module) {
+                console.log(module);
+                module.func1();
+                module.func2();
+                module.func3();
+            });
+    </script>
+</body>
+</html>

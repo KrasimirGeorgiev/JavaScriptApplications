@@ -1,0 +1,342 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Undersore</title>
+</head>
+<body>
+    <script src="bower_components/underscore/underscore.js"></script>
+    <script>
+        var numbers = [32, -54, 1, 45, 23, -78, 10, 66],
+            person = {
+                name: 'Pesho',
+                age: 21,
+                address: {
+                    town: 'Sofia',
+                    street: 'Malinov',
+                }
+            },
+            people = [
+                {
+                    name: 'Ivan111',
+                    age: 32,
+                    random: 3,
+                }, {
+                    name: 'Ivan22',
+                    age: 22,
+                    random: 2,
+                }, {
+                    age: 32,
+                    random: 1,
+                }, {
+                    age: 45,
+                    random: 1,
+                }, {
+                    name: 'Ivan4',
+                    age: 21,
+                    random: 2,
+                }, {
+                    name: 'Ivan55',
+                    age: 21,
+                    random: 3,
+                }
+            ];
+
+        console.log('========== _.each ==========');
+        _.each(numbers, function (item, index, list) {
+            console.log(item);
+        });
+
+        console.log('========== _.map ==========');
+        console.log('========== x *= -1 ==========');
+        console.log(_.map(numbers, function (item, index, list) {
+            return item *= -1;
+        }));
+
+        console.log('========== _.filter ==========');
+        console.log('========== x < 0 ==========');
+        console.log(_.filter(numbers, function (item, index, list) {
+            return item < 0;
+        }));
+
+        console.log('========== _.reject ==========');
+        console.log('========== x < 0  ==========');
+        console.log(_.reject(numbers, function (item, index, list) {
+            return item < 0;
+        }));
+
+        console.log('========== _.where ==========');
+        console.log('========== x < 0 ==========');
+        console.log(_.where(people, { age: 21 }));
+
+        console.log('========== _.all _.every ==========');
+        console.log('========== x < 1000 ==========');
+        console.log(_.all(numbers, function (item, index, list) {
+            return item < 1000;
+        }));
+        console.log(_.every(numbers, function (item, index, list) {
+            return item < 1000;
+        }));
+
+        console.log('========== _.any _.some ==========');
+        console.log('========== x < 1 ==========');
+        console.log(_.any(numbers, function (item, index, list) {
+            return item < 1;
+        }));
+        console.log(_.some(numbers, function (item, index, list) {
+            return item < 1;
+        }));
+
+        console.log('========== _.pluck ==========');
+        console.log('========== "name" ==========');
+        console.log(_.pluck(people, 'name'));
+
+        console.log('========== _.sortBy ==========');
+        console.log(_.sortBy(people, 'age'));
+
+        console.log('========== _.sortBy (desc)==========');
+        console.log(_.sortBy(people, function (person) {
+            return -person.age;
+        }));
+
+        console.log('========== _.sortBy("age").sortBy("random") ==========');
+        console.log(_.chain(people)
+            .sortBy(function (person) {
+                return person.age;
+            })
+            .sortBy(function (person) {
+                return person.random;
+            })
+            .value());
+
+        console.log('========== _.groupBy ==========');
+        console.log('========== age ==========');
+        console.log(_.groupBy(people, 'age'));
+
+        console.log('========== _.groupBy ==========');
+        console.log('========== Math.round ==========');
+        console.log(_.groupBy([1.2, 1.45, 2.55, 3.32, 3.12], function (num) { return Math.round(num); }));
+
+        console.log('========== _.groupBy ==========');
+        console.log('========== "length" ==========');
+        console.log(_.groupBy(['one', 'two', 'three'], 'length'));
+
+
+        console.log('========== _.memoize ==========');
+        var fib = _.memoize(function (n) {
+            console.log(n);
+            if (n < 2) {
+                return 1;
+            } else {
+                return fib(n - 1) + fib(n - 1);
+            }
+        });
+        console.log(fib(5));
+
+
+        console.log('========== _.template ==========');
+        var template = _.template('Hello <%= name %>');
+        console.log(template({ name: 'Pesho' }));
+        template = _.template('Escape this <%- tag %> tag!');
+        console.log(template({ tag: '<script>' }));
+        template = _.template('<% alert(name) %>');
+        console.log(template({ name: 'Pesho' }));
+
+        console.log('https://github.com/TelerikAcademy/JavaScript-Applications/tree/master/04.%20Underscore.js%20overview/homework/tasks');
+        console.log('========== Task 1 ==========');
+        var Student = Object.create({
+            init: function (firstName, lastName, age, marks) {
+                this.firstName = firstName;
+                this.lastName = lastName;
+                this.age = age;
+                this.marks = marks;
+                return this;
+            }
+
+        });
+
+        var students = [];
+        students.push(Object.create(Student).init('Ivan', 'Todorov', 12, [4, 5, 6, 6]));
+        students.push(Object.create(Student).init('Dragan', 'Todorov', 14, [4, 3, 6, 6]));
+        students.push(Object.create(Student).init('Ivan', 'Sokolov', 32, [4, 5, 2, 3]));
+        students.push(Object.create(Student).init('Dragan', 'Uzunov', 18, [5, 5, 3, 6]));
+        students.push(Object.create(Student).init('Todor', 'Ivanov', 15, [6, 5, 6, 6]));
+        students.push(Object.create(Student).init('Boyan', 'Angelov', 22, [4, 4, 6, 6]));
+        students.push(Object.create(Student).init('Stoqn', 'Petkov', 15, [4, 5, 4, 4]));
+        students.push(Object.create(Student).init('Stoqn', 'Uzunov', 19, [4, 5, 5, 5]));
+        students.push(Object.create(Student).init('Stoqn', 'Uzurov', 11, [4, 5, 3, 3]));
+        students.push(Object.create(Student).init('Keno', 'Ivanov', 43, [4, 2, 3, 2]));
+
+        function findStudents(students) {
+            _.chain(students)
+                .filter(function (student) {
+                    return student.firstName < student.lastName;
+                })
+                .sortBy(function (student) {
+                    return student.firstName + ' ' + student.lastName;
+                })
+                .reverse()
+                .each(function (student) {
+                    console.log(student.firstName + ' ' + student.lastName);
+                });
+        }
+
+        findStudents(students);
+
+        console.log('========== Task 2 ==========');
+        function underageStudentsSorted(students) {
+            _.chain(students)
+                .filter(function (student) {
+                    return 18 <= student.age && student.age <= 24;
+                })
+                .sortBy(function (student) {
+                    return student.firstName + ' ' + student.lastName;
+                })
+                .each(function (student) {
+                    console.log(student.firstName + ' ' + student.lastName);
+                });
+        }
+
+        underageStudentsSorted(students);
+
+        console.log('========== Task 3 ==========');
+        function topStudent(students) {
+            var bestStudent = _.chain(students)
+                .map(function (student) {
+                    var averageScore,
+                        sumOfMarks = student.marks.reduce(function (sum, mark) {
+                            return sum + mark;
+                        }, 0);
+                    averageScore = sumOfMarks / student.marks.length;
+                    student.averageScore = averageScore;
+                    return student;
+                })
+                .sortBy(function (student) {
+                    return -student.averageScore;
+                })
+                .first()
+                .value();
+
+            console.log(bestStudent.firstName + ' ' + bestStudent.lastName + ' has an average score of ' + bestStudent.averageScore);
+        }
+
+        topStudent(students);
+
+        console.log('========== Task 4 ==========');
+        var Animal = Object.create({
+            init: function (name, species, legsCount) {
+                this.name = name;
+                this.species = species;
+                this.legsCount = legsCount;
+                return this;
+            },
+            info: function () {
+                return this.fname + ' : ' + this.species + ' ' + this.legsCount;
+            }
+        });
+
+        var animals = [];
+        animals.push(Object.create(Animal).init('Cat4o', 'Mammal', 4));
+        animals.push(Object.create(Animal).init('Bai Ivane', 'Mammal', 2));
+        animals.push(Object.create(Animal).init('Bai Ivana', 'Mammal', 2));
+        animals.push(Object.create(Animal).init('Dog4o', 'Mammal', 4));
+        animals.push(Object.create(Animal).init('Top4o', 'Fish', 0));
+        animals.push(Object.create(Animal).init('Dogy', 'Mammal', 4));
+        animals.push(Object.create(Animal).init('Monky', 'Mammal', 2));
+        animals.push(Object.create(Animal).init('Kiro', 'Mammal', 2));
+        animals.push(Object.create(Animal).init('Nemo', 'Fish', 0));
+        animals.push(Object.create(Animal).init('NemoMutant', 'Fish', 2));
+        animals.push(Object.create(Animal).init('NemoMotant', 'Fish', 2));
+        animals.push(Object.create(Animal).init('Snaky', 'Reptile', 0));
+        animals.push(Object.create(Animal).init('Lizard4o', 'Reptile', 4));
+        animals.push(Object.create(Animal).init('Frogy', 'Reptile', 2));
+        animals.push(Object.create(Animal).init('Eagle', 'Bird', 2));
+        animals.push(Object.create(Animal).init('Seagle', 'Bird', 2));
+
+        function groupedAndSortedAnimals(animals) {
+            var result = _.chain(animals)
+                            .groupBy('species')
+                            .sortBy(function (group) {
+                                return group[0].species;
+                            })
+                            .reverse()
+                            .each(function (group) {
+                                var groupNameLength,
+                                    groupName = group[0].species;
+
+                                groupNameLength = groupName.length;
+                                console.log(Array(groupNameLength + 2).join('-'));
+                                console.log(groupName);
+                                console.log(Array(groupNameLength + 2).join('-'));
+                                _.chain(group)
+                                    .sortBy(function (animal) {
+                                        return animal.name;
+                                    })
+                                    .sortBy(function (animal) {
+                                        return animal.legsCount;
+                                    })
+                                    .each(function (animal) {
+                                        console.log(animal.name + ' has ' + animal.legsCount + ' legs');
+                                    });
+                            });
+        }
+
+        groupedAndSortedAnimals(animals);
+
+        console.log('========== Task 5 ==========');
+        function findTotalLegs(animals) {
+            var totalLegs = _.reduce(animals, function (memo, animal) {
+                return memo + animal.legsCount;
+            }, 0);
+
+            console.log('Total number of legs: ' + totalLegs);
+        }
+
+        findTotalLegs(animals);
+
+        console.log('========== Task 6 ==========');
+        var Book = Object.create({
+            init: function (title, authorFirstName, authorLastName) {
+                this.title = title;
+                this.author =
+                    {
+                        firstName: authorFirstName,
+                        lastName: authorLastName
+                    };
+                return this;
+            }
+        });
+
+        var books = [];
+        books.push(Object.create(Book).init('LOTR', 'John', 'Tolkin'));
+        books.push(Object.create(Book).init('Clash of Kings', 'George', 'Martin'));
+        books.push(Object.create(Book).init('Game Of thrones', 'George', 'Martin'));
+        books.push(Object.create(Book).init('LOTRII', 'John', 'Tolkin'));
+        books.push(Object.create(Book).init('Dance with dragons', 'George', 'Martin'));
+        books.push(Object.create(Book).init('Underscore.js', 'Ivo', 'Kenov'));
+        books.push(Object.create(Book).init('C#', 'Baj', 'Nakov'));
+        books.push(Object.create(Book).init('LOTRIII', 'John', 'Tolkin'));
+        books.push(Object.create(Book).init('Java', 'Baj', 'Nakov'));
+
+        function findMostPopularAuthor(books) {
+            _.chain(books)
+                .groupBy(function (book) {
+                    return book.author.firstName + ' ' + book.author.lastName;
+                })
+                .sortBy(function (group) {
+                    return -group.length;
+                })
+                .filter(function (group, index, groups) {
+                    return group.length === groups[0].length;
+                })
+                .sortBy(function (group) {
+                    return group[0].author.firstName + ' ' + group[0].author.lastName;
+                })
+                .each(function (group) {
+                    console.log(group[0].author.firstName + ' ' + group[0].author.lastName);
+                });
+        }
+
+        findMostPopularAuthor(books);
+    </script>
+</body>
+</html>
